@@ -4,6 +4,13 @@ from Selenium2 import make_screenshot
 import time
 import pytest
 
+test_data = [
+    ('standard_user', 'secret_sauce', 'https://www.saucedemo.com/inventory.html'),
+    ('locked_out_user', "secret_sauce", 'https://www.saucedemo.com/'),
+    ('problem_user', 'secret_sauce', 'https://www.saucedemo.com/inventory.html'),
+    ('performance_glitch_user', 'secret_sauce', 'https://www.saucedemo.com/inventory.html')
+]
+
 @pytest.mark.parametrize('username', ['standard_user', 'lockout_user'])
 def test_lgin_page(username):
     driver = webdriver.Chrome()
@@ -14,7 +21,8 @@ def test_lgin_page(username):
     page.click_login()
     time.sleep(3)
     try:
-        assert driver.current_url == 'https://www.saucedemo.com/investory.html', make_screenshot(driver)
+        assert driver.current_url == 'https://www.saucedemo.com/inventory.html', make_screenshot(driver)
+        # gdy asersja sie nie uda, zrob screenshota
     except AssertionError:
         print('blad, zly adres')
         raise
